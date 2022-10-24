@@ -5,18 +5,21 @@ const CryptoTable = () => {
 		<table className="container mx-auto bg-black text-white font-open-sans rounded-t-md">
 			<thead>
 				<tr>
-					<th className="leading-8 text-center pl-12">head 1</th>
-					<th className="leading-8 text-center pl-12">head 2</th>
+					<th></th>
+					<th>Rank</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Market Cap</th>
+					<th className="hidden">VWAP (24Hr)</th>
+					<th className="hidden">Supply</th>
+					<th className="hidden">Volume (24Hr)</th>
+					<th className="hidden">Change (24Hr)</th>
 				</tr>
 			</thead>
 			<tbody>
-				<TableRow />
-				<TableRow />
-				<TableRow />
-				<TableRow />
-				<TableRow />
-				<TableRow />
-				<TableRow />
+				{[...Array(15)].map((_x, i) => (
+					<TableRow />
+				))}
 			</tbody>
 		</table>
 	);
