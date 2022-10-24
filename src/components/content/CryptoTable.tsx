@@ -1,6 +1,69 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 import TableRow from "./table/TableRow";
+export interface CoinI {
+	rank: number;
+	symbol: string;
+	name: string;
+	priceUsd: number;
+	marketCapUsd: number;
+	vwap24Hr: number;
+	supply: number;
+	volumeUsd24Hr: number;
+	changePercent24Hr: number;
+}
+
+export class CryptoCoin implements CoinI {
+	rank: number;
+	symbol: string;
+	name: string;
+	priceUsd: number;
+	marketCapUsd: number;
+	vwap24Hr: number;
+	supply: number;
+	volumeUsd24Hr: number;
+	changePercent24Hr: number;
+
+	constructor(coin: CoinI) {
+		this.rank = coin.rank;
+		this.symbol = coin.symbol;
+		this.name = coin.name;
+		this.priceUsd = coin.priceUsd;
+		this.marketCapUsd = coin.marketCapUsd;
+		this.vwap24Hr = coin.vwap24Hr;
+		this.supply = coin.supply;
+		this.volumeUsd24Hr = coin.volumeUsd24Hr;
+		this.changePercent24Hr = coin.changePercent24Hr;
+	}
+}
+
+const REQUEST_URL = "https://api.coincap.io/v2/assets";
 
 const CryptoTable = () => {
+	const [cryptoCurrencyData, setCryptoCurrencyData] = useState([]);
+
+	useEffect(() => {
+		axios.get(REQUEST_URL).then(
+			({ data }) => {
+				setCryptoCurrencyData(data.data);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}, []);
+
+	const parseCryptoDataToArrayOfCoins = () => {
+		const arrayOfCoins = [];
+		for (let i = 0; i < cryptoCurrencyData.length; i++) {
+			const coin = new CryptoCoin(cryptoCurrencyData[i]);
+			arrayOfCoins.push(coin);
+		}
+		return arrayOfCoins;
+	};
+	const coinsArray = parseCryptoDataToArrayOfCoins();
+
 	return (
 		<table className="container mx-auto bg-black text-white font-open-sans rounded-t-md">
 			<thead>
@@ -18,7 +81,7 @@ const CryptoTable = () => {
 			</thead>
 			<tbody>
 				{[...Array(15)].map((_x, i) => (
-					<TableRow />
+					<TableRow key={i} />
 				))}
 			</tbody>
 		</table>
