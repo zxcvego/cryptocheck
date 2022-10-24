@@ -42,11 +42,13 @@ const REQUEST_URL = "https://api.coincap.io/v2/assets";
 
 const CryptoTable = () => {
 	const [cryptoCurrencyData, setCryptoCurrencyData] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		axios.get(REQUEST_URL).then(
 			({ data }) => {
 				setCryptoCurrencyData(data.data);
+				setLoading(false);
 			},
 			(error) => {
 				console.log(error);
@@ -80,9 +82,11 @@ const CryptoTable = () => {
 				</tr>
 			</thead>
 			<tbody>
-				{[...Array(15)].map((_x, i) => (
-					<TableRow key={i} coin={coinsArray[i]}/>
-				))}
+				{loading
+					? null
+					: [...Array(15)].map((_x, i) => (
+							<TableRow key={i} coin={coinsArray[i]} />
+					  ))}
 			</tbody>
 		</table>
 	);
