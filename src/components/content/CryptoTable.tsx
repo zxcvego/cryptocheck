@@ -81,7 +81,7 @@ const CryptoTable = () => {
 			</thead>
 			<tbody>
 				{[...Array(15)].map((_x, i) => (
-					<TableRow key={i} />
+					<TableRow key={i} coin={coinsArray[i]}/>
 				))}
 			</tbody>
 		</table>
