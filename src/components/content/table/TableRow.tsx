@@ -1,7 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { CoinI } from "../CryptoTable";
 
-const TableRow = ({ coin }: any) => {
+const TableRow = ({ coin }: { coin: CoinI }) => {
 	return (
 		<>
 			<tr className="h-14 bg-gray-100 leading-10 border-t-2 border-neutral-300 text-black box-border">
