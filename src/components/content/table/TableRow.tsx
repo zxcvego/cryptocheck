@@ -4,15 +4,21 @@ import { CoinI } from "../CryptoTable";
 
 const COIN_ICON_URL = "https://assets.coincap.io/assets/icons/";
 
+const assignProperColorForPercentage = (value: number) => {
+	let color = "";
+	value > 0 ? (color = "text-green-500") : (color = "text-red-500");
+	return color;
+};
+
 const TableRow = ({ coin }: { coin: CoinI }) => {
 	return (
 		<>
-			<tr className="h-14 bg-gray-100 leading-10 border-t-2 border-neutral-300 text-black box-border">
+			<tr className="h-14 bg-gray-100 leading-10 border-t-2 border-neutral-300 text-black box-border text-center">
 				<td className="pl-4">
 					<FontAwesomeIcon icon={faHeart} />
 				</td>
-				<td className="text-center w-3">{coin.rank}</td>
-				<td className="text-center">
+				<td className="w-3">{coin.rank}</td>
+				<td>
 					<div className="flex justify-center items-center gap-2">
 						<img
 							src={`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`}
@@ -22,8 +28,13 @@ const TableRow = ({ coin }: { coin: CoinI }) => {
 						{coin.name}
 					</div>
 				</td>
-				<td className="text-center">{coin.priceUsd}</td>
-				<td className="text-center">{coin.marketCapUsd}</td>
+				<td>{coin.priceUsd}</td>
+				<td>{coin.marketCapUsd}</td>
+				<td
+					className={assignProperColorForPercentage(
+						Number(coin.changePercent24Hr)
+					)}
+				>{`${Number(coin.changePercent24Hr).toFixed(2)}%`}</td>
 			</tr>
 		</>
 	);
