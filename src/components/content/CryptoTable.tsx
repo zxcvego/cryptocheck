@@ -14,63 +14,29 @@ export interface CoinI {
 	changePercent24Hr: number;
 }
 
-export class CryptoCoin implements CoinI {
-	rank: number;
-	symbol: string;
-	name: string;
-	priceUsd: number;
-	marketCapUsd: number;
-	vwap24Hr: number;
-	supply: number;
-	volumeUsd24Hr: number;
-	changePercent24Hr: number;
-
-	constructor(coin: CoinI) {
-		this.rank = coin.rank;
-		this.symbol = coin.symbol;
-		this.name = coin.name;
-		this.priceUsd = coin.priceUsd;
-		this.marketCapUsd = coin.marketCapUsd;
-		this.vwap24Hr = coin.vwap24Hr;
-		this.supply = coin.supply;
-		this.volumeUsd24Hr = coin.volumeUsd24Hr;
-		this.changePercent24Hr = coin.changePercent24Hr;
-	}
-}
-
 const REQUEST_URL = "https://api.coincap.io/v2/assets";
+const REQUEST_CONFIG = {
+	params: {
+		limit: 2000,
+	},
+};
 
 const CryptoTable = () => {
 	const [cryptoCurrencyData, setCryptoCurrencyData] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		axios
-			.get(REQUEST_URL, {
-				params: {
-					limit: 2000,
-				},
-			})
-			.then(
-				({ data }) => {
-					setCryptoCurrencyData(data.data);
-					setLoading(false);
-				},
-				(error) => {
-					console.log(error);
-				}
-			);
-	}, []);
+		axios.get(REQUEST_URL, REQUEST_CONFIG).then(
+			({ data }) => {
+				setCryptoCurrencyData(data.data);
+				setLoading(false);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}, [cryptoCurrencyData]);
 
-	const parseCryptoDataToArrayOfCoins = () => {
-		const arrayOfCoins = [];
-		for (let i = 0; i < cryptoCurrencyData.length; i++) {
-			const coin = new CryptoCoin(cryptoCurrencyData[i]);
-			arrayOfCoins.push(coin);
-		}
-		return arrayOfCoins;
-	};
-	const coinsArray = parseCryptoDataToArrayOfCoins();
 	return (
 		<table className="container mx-auto bg-black text-white font-open-sans rounded-t-md">
 			<thead>
@@ -89,8 +55,8 @@ const CryptoTable = () => {
 			<tbody>
 				{loading
 					? null
-					: [...Array(15)].map((_x, i) => (
-							<TableRow key={i} coin={coinsArray[i]} />
+					: [...Array(20)].map((_x, i) => (
+							<TableRow key={i} coin={cryptoCurrencyData[i]} />
 					  ))}
 			</tbody>
 		</table>
