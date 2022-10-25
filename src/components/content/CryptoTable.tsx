@@ -45,15 +45,21 @@ const CryptoTable = () => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		axios.get(REQUEST_URL).then(
-			({ data }) => {
-				setCryptoCurrencyData(data.data);
-				setLoading(false);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+		axios
+			.get(REQUEST_URL, {
+				params: {
+					limit: 2000,
+				},
+			})
+			.then(
+				({ data }) => {
+					setCryptoCurrencyData(data.data);
+					setLoading(false);
+				},
+				(error) => {
+					console.log(error);
+				}
+			);
 	}, []);
 
 	const parseCryptoDataToArrayOfCoins = () => {
@@ -65,7 +71,6 @@ const CryptoTable = () => {
 		return arrayOfCoins;
 	};
 	const coinsArray = parseCryptoDataToArrayOfCoins();
-
 	return (
 		<table className="container mx-auto bg-black text-white font-open-sans rounded-t-md">
 			<thead>
@@ -75,10 +80,10 @@ const CryptoTable = () => {
 					<th>Name</th>
 					<th>Price</th>
 					<th>Market Cap</th>
+					<th>Change (24Hr)</th>
 					<th className="hidden">VWAP (24Hr)</th>
 					<th className="hidden">Supply</th>
 					<th className="hidden">Volume (24Hr)</th>
-					<th className="hidden">Change (24Hr)</th>
 				</tr>
 			</thead>
 			<tbody>
