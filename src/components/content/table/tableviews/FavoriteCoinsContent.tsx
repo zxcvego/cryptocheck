@@ -3,24 +3,32 @@ import TableRow from "../TableRow";
 const FavoriteCoinsContent = ({
 	cryptoCurrencyData,
 	setCryptoCurrencyData,
-}: any) => {
+}: {
+	cryptoCurrencyData: CoinI[];
+	setCryptoCurrencyData: React.Dispatch<React.SetStateAction<CoinI[]>>;
+}) => {
 	const showFavoriteCoins = () => {
-		const fav = cryptoCurrencyData.filter((object: CoinI, i: number) => {
-			return object.isFavorite ? object : null;
-		});
+		const favoriteCoins = cryptoCurrencyData.filter(
+			(favoriteCoin: CoinI, i: number) => {
+				return favoriteCoin.isFavorite;
+			}
+		);
 
-		console.log(fav);
-		const showFav = fav.map((_x: any, i: number) => (
-			<TableRow
-				key={i + 100}
-				coin={fav[i]}
-				cryptoCurrencyData={cryptoCurrencyData}
-				setCryptoCurrencyData={setCryptoCurrencyData}
-				id={i}
-			/>
-		));
-		console.log(showFav);
-		return showFav;
+		return (
+			<>
+				{favoriteCoins.map(
+					(coin: CoinI, i: number): JSX.Element => (
+						<TableRow
+							key={i}
+							coin={coin}
+							cryptoCurrencyData={cryptoCurrencyData}
+							setCryptoCurrencyData={setCryptoCurrencyData}
+							id={i}
+						/>
+					)
+				)}
+			</>
+		);
 	};
 
 	return showFavoriteCoins();

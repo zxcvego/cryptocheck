@@ -87,7 +87,6 @@ const CryptoTable = () => {
 						<FavoriteCoinsContent
 							cryptoCurrencyData={cryptoCurrencyData}
 							setCryptoCurrencyData={setCryptoCurrencyData}
-							amountOfVisibleCoins={amountOfVisibleCoins}
 						/>
 					)}
 				</tbody>
