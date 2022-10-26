@@ -24,6 +24,9 @@ const TableRow = ({
 	id: number;
 }) => {
 	const [favoriteButtonStatus, setFavoriteButtonStatus] = useState(false);
+	const [coinImage, setCoinImage] = useState(
+		`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`
+	);
 
 	const changeFavoriteStatus = () => {
 		const tempArray = [...cryptoCurrencyData];
@@ -56,7 +59,12 @@ const TableRow = ({
 				<td>
 					<div className="flex justify-center items-center gap-2">
 						<img
-							src={`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`}
+							src={coinImage}
+							onError={() =>
+								setCoinImage(
+									`https://toppng.com/uploads/preview/gold-coins-11530998393xtf85riude.png`
+								)
+							}
 							alt={`${coin.name} icon`}
 							className="w-6 h-6"
 						/>
