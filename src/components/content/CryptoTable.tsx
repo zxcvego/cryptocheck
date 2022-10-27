@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import MainTableContent from "./table/tableviews/MainTableContent";
+import TableContent from "./table/tableviews/TableContent";
 import ViewMoreButton from "./table/ViewMoreButton";
-import FavoriteCoinsContent from "./table/tableviews/FavoriteCoinsContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
 export interface CoinI {
@@ -18,6 +17,16 @@ export interface CoinI {
 	isFavorite: boolean;
 }
 
+export interface SortPropsI {
+	column: keyof Omit<CoinI, "isFavorite">;
+	type: "ASC" | "DESC";
+}
+
+interface TableHeadersI {
+	nameToView: string;
+	propertyName: string;
+}
+
 const REQUEST_URL = "https://api.coincap.io/v2/assets";
 const REQUEST_CONFIG = {
 	params: {
@@ -25,11 +34,26 @@ const REQUEST_CONFIG = {
 	},
 };
 
+const TABLE_HEADERS: { nameToView: string; propertyName: keyof CoinI }[] = [
+	{ nameToView: "Rank", propertyName: "rank" },
+	{ nameToView: "Name", propertyName: "name" },
+	{ nameToView: "Price", propertyName: "priceUsd" },
+	{ nameToView: "Market Cap", propertyName: "marketCapUsd" },
+	{ nameToView: "Change (24H)", propertyName: "changePercent24Hr" },
+	{ nameToView: "VWAP (24H)", propertyName: "vwap24Hr" },
+	{ nameToView: "Supply", propertyName: "supply" },
+	{ nameToView: "Volume (24H)", propertyName: "volumeUsd24Hr" },
+];
+
 const CryptoTable = () => {
 	const [cryptoCurrencyData, setCryptoCurrencyData] = useState<CoinI[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [amountOfVisibleCoins, setAmountOfVisibleCoins] = useState(20);
 	const [showFavoriteCoins, setShowFavoriteCoins] = useState(false);
+	const [sortProps, setSortProps] = useState<SortPropsI>({
+		column: "rank",
+		type: "ASC",
+	});
 
 	useEffect(() => {
 		axios.get(REQUEST_URL, REQUEST_CONFIG).then(
@@ -53,6 +77,15 @@ const CryptoTable = () => {
 		setAmountOfVisibleCoins(amountOfVisibleCoins + incrementValue);
 	};
 
+	const changeSortingCategory = (tableHeader: TableHeadersI) => {
+		const sortPropsTemp = structuredClone(sortProps);
+		sortPropsTemp.column = tableHeader.propertyName;
+		sortPropsTemp.type === "ASC"
+			? (sortPropsTemp.type = "DESC")
+			: (sortPropsTemp.type = "ASC");
+		setSortProps(sortPropsTemp);
+	};
+
 	return (
 		<>
 			<table className="container mx-auto bg-black text-white font-open-sans rounded-t-md min-h-24">
@@ -62,33 +95,38 @@ const CryptoTable = () => {
 							<FontAwesomeIcon
 								icon={faHeartInactive}
 								className="text-blue-500 pl-4 cursor-pointer"
-								onClick={() => setShowFavoriteCoins(!showFavoriteCoins)}
+								onClick={() => {
+									setShowFavoriteCoins(!showFavoriteCoins);
+								}}
 							/>
 						</th>
-						<th>Rank</th>
-						<th>Name</th>
-						<th>Price</th>
-						<th>Market Cap</th>
-						<th>Change (24Hr)</th>
-						<th className="hidden">VWAP (24Hr)</th>
-						<th className="hidden">Supply</th>
-						<th className="hidden">Volume (24Hr)</th>
+						{TABLE_HEADERS.map((tableHeader, i) => {
+							return (
+								<th
+									key={i}
+									onClick={() => {
+										changeSortingCategory(tableHeader);
+									}}
+									className="cursor-pointer hover:bg-blue-400"
+								>
+									{tableHeader.nameToView}
+									{tableHeader.propertyName === sortProps.column ? (
+										<p>{sortProps.type}</p>
+									) : null}
+								</th>
+							);
+						})}
 					</tr>
 				</thead>
 				<tbody>
-					{!showFavoriteCoins ? (
-						<MainTableContent
-							loading={loading}
-							cryptoCurrencyData={cryptoCurrencyData}
-							setCryptoCurrencyData={setCryptoCurrencyData}
-							amountOfVisibleCoins={amountOfVisibleCoins}
-						/>
-					) : (
-						<FavoriteCoinsContent
-							cryptoCurrencyData={cryptoCurrencyData}
-							setCryptoCurrencyData={setCryptoCurrencyData}
-						/>
-					)}
+					<TableContent
+						loading={loading}
+						cryptoCurrencyData={cryptoCurrencyData}
+						setCryptoCurrencyData={setCryptoCurrencyData}
+						amountOfVisibleCoins={amountOfVisibleCoins}
+						showFavoriteCoins={showFavoriteCoins}
+						sortProps={sortProps}
+					/>
 				</tbody>
 			</table>
 			<ViewMoreButton
