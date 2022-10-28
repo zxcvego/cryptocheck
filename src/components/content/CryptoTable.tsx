@@ -60,8 +60,8 @@ const CryptoTable = () => {
 			({ data }) => {
 				const response = data.data;
 				setCryptoCurrencyData(
-					response.map((obj: CoinI) => ({
-						...obj,
+					response.map((coin: CoinI) => ({
+						...coin,
 						isFavorite: false,
 					}))
 				);
@@ -71,7 +71,7 @@ const CryptoTable = () => {
 				console.log(error);
 			}
 		);
-	}, []);
+	}, [loading]);
 
 	const increaseAmountOfVisibleCoins = (incrementValue: number) => {
 		setAmountOfVisibleCoins(amountOfVisibleCoins + incrementValue);
