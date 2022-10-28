@@ -5,15 +5,15 @@ import ViewMoreButton from "./table/ViewMoreButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
 export interface CoinI {
-	rank: number;
+	rank: string;
 	symbol: string;
 	name: string;
-	priceUsd: number;
-	marketCapUsd: number;
-	vwap24Hr: number;
-	supply: number;
-	volumeUsd24Hr: number;
-	changePercent24Hr: number;
+	priceUsd: string;
+	marketCapUsd: string;
+	vwap24Hr: string;
+	supply: string;
+	volumeUsd24Hr: string;
+	changePercent24Hr: string;
 	isFavorite: boolean;
 }
 
