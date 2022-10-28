@@ -4,6 +4,8 @@ import TableContent from "./table/tableviews/TableContent";
 import ViewMoreButton from "./table/ViewMoreButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
+import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+
 export interface CoinI {
 	rank: string;
 	symbol: string;
@@ -109,10 +111,22 @@ const CryptoTable = () => {
 									}}
 									className="cursor-pointer hover:bg-blue-400"
 								>
-									{tableHeader.nameToView}
-									{tableHeader.propertyName === sortProps.column ? (
-										<p>{sortProps.type}</p>
-									) : null}
+									<div className="flex">
+										{tableHeader.nameToView}
+										{tableHeader.propertyName === sortProps.column ? (
+											sortProps.type === "ASC" ? (
+												<FontAwesomeIcon
+													icon={faArrowUp}
+													className="text-blue-500"
+												/>
+											) : (
+												<FontAwesomeIcon
+													icon={faArrowDown}
+													className="text-blue-500"
+												/>
+											)
+										) : null}
+									</div>
 								</th>
 							);
 						})}
