@@ -6,12 +6,6 @@ import { useState } from "react";
 
 const COIN_ICON_URL = "https://assets.coincap.io/assets/icons/";
 
-const assignProperColorForPercentage = (value: number) => {
-	let color = "";
-	value > 0 ? (color = "text-green-500") : (color = "text-red-500");
-	return color;
-};
-
 const TableRow = ({
 	coin,
 	cryptoCurrencyData,
@@ -37,6 +31,54 @@ const TableRow = ({
 		tempArray[indexOfCurrentCoin].isFavorite =
 			!tempArray[indexOfCurrentCoin].isFavorite;
 		setCryptoCurrencyData(tempArray);
+	};
+
+	const formatCoinPropertyValue = (
+		value: string,
+		propertyToFormat: keyof Omit<CoinI, "isFavorite">
+	) => {
+		if (value === "0.0000000000000000" || value === null) return "-";
+
+		const numberWithCommas = Number(value).toLocaleString("en-US");
+		const commaCount = numberWithCommas.split(",").length - 1;
+		const commaIndex = numberWithCommas.indexOf(",");
+		let suffix = "";
+		let prefix = "";
+		if (propertyToFormat !== "supply") prefix = "$";
+
+		switch (propertyToFormat) {
+			case "marketCapUsd":
+			case "volumeUsd24Hr":
+			case "supply":
+				switch (commaCount) {
+					case 0:
+						suffix = "";
+						break;
+					case 1:
+						suffix = "k";
+						break;
+					case 2:
+						suffix = "m";
+						break;
+					case 3:
+						suffix = "b";
+						break;
+				}
+		}
+
+		if (propertyToFormat === "priceUsd" || propertyToFormat === "vwap24Hr")
+			return `${prefix}${numberWithCommas}${suffix}`;
+
+		return `${prefix}${numberWithCommas.slice(0, commaIndex + 3)}${suffix}`;
+	};
+
+	const assignProperColorForPercentage = (value: number) => {
+		let color = "";
+		return value === 0
+			? (color = "")
+			: value > 0
+			? (color = "text-green-500")
+			: (color = "text-red-500");
 	};
 
 	return (
@@ -71,13 +113,24 @@ const TableRow = ({
 						{coin.name}
 					</div>
 				</td>
-				<td>{coin.priceUsd}</td>
-				<td>{coin.marketCapUsd}</td>
+				<td>
+					{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}
+					<br></br>
+					<p>{coin.priceUsd}</p>
+				</td>
+				<td>{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}</td>
 				<td
 					className={assignProperColorForPercentage(
 						Number(coin.changePercent24Hr)
 					)}
 				>{`${Number(coin.changePercent24Hr).toFixed(2)}%`}</td>
+				<td>
+					{formatCoinPropertyValue(coin.vwap24Hr, "vwap24Hr")}
+					<br></br>
+					<p>{coin.vwap24Hr}</p>
+				</td>
+				<td>{formatCoinPropertyValue(coin.supply, "supply")}</td>
+				<td>{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}</td>
 			</tr>
 		</>
 	);
