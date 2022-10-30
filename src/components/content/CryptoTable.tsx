@@ -27,6 +27,7 @@ export interface SortPropsI {
 interface TableHeadersI {
 	nameToView: string;
 	propertyName: string;
+	cssStyle: string;
 }
 
 const REQUEST_URL = "https://api.coincap.io/v2/assets";
@@ -36,15 +37,35 @@ const REQUEST_CONFIG = {
 	},
 };
 
-const TABLE_HEADERS: { nameToView: string; propertyName: keyof CoinI }[] = [
-	{ nameToView: "Rank", propertyName: "rank" },
-	{ nameToView: "Name", propertyName: "name" },
-	{ nameToView: "Price", propertyName: "priceUsd" },
-	{ nameToView: "Market Cap", propertyName: "marketCapUsd" },
-	{ nameToView: "VWAP (24H)", propertyName: "vwap24Hr" },
-	{ nameToView: "Supply", propertyName: "supply" },
-	{ nameToView: "Volume (24H)", propertyName: "volumeUsd24Hr" },
-	{ nameToView: "Change (24H)", propertyName: "changePercent24Hr" },
+const TABLE_HEADERS: {
+	nameToView: string;
+	propertyName: keyof CoinI;
+	cssStyle: string;
+}[] = [
+	{ nameToView: "Rank", propertyName: "rank", cssStyle: "" },
+	{ nameToView: "Name", propertyName: "name", cssStyle: "" },
+	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "" },
+	{
+		nameToView: "Market Cap",
+		propertyName: "marketCapUsd",
+		cssStyle: "hidden md:block",
+	},
+	{
+		nameToView: "VWAP (24H)",
+		propertyName: "vwap24Hr",
+		cssStyle: "hidden md:block",
+	},
+	{ nameToView: "Supply", propertyName: "supply", cssStyle: "hidden md:block" },
+	{
+		nameToView: "Volume (24H)",
+		propertyName: "volumeUsd24Hr",
+		cssStyle: "hidden md:block",
+	},
+	{
+		nameToView: "Change (24H)",
+		propertyName: "changePercent24Hr",
+		cssStyle: "",
+	},
 ];
 
 const CryptoTable = () => {
@@ -68,6 +89,7 @@ const CryptoTable = () => {
 					}))
 				);
 				setLoading(false);
+				console.log(response);
 			},
 			(error) => {
 				console.log(error);
@@ -90,13 +112,13 @@ const CryptoTable = () => {
 
 	return (
 		<>
-			<table className="container mx-auto bg-black text-white font-open-sans rounded-t-md min-h-24">
+			<table className="container mx-auto text-white rounded-t-md ">
 				<thead>
 					<tr>
 						<th>
 							<FontAwesomeIcon
 								icon={faHeartInactive}
-								className="text-blue-500 pl-4 cursor-pointer"
+								className="text-blue-500 cursor-pointer"
 								onClick={() => {
 									setShowFavoriteCoins(!showFavoriteCoins);
 								}}
@@ -109,9 +131,9 @@ const CryptoTable = () => {
 									onClick={() => {
 										changeSortingCategory(tableHeader);
 									}}
-									className="cursor-pointer hover:bg-blue-400"
+									className={`cursor-pointer ` + tableHeader.cssStyle}
 								>
-									<div className="flex">
+									<div>
 										{tableHeader.nameToView}
 										{tableHeader.propertyName === sortProps.column ? (
 											sortProps.type === "ASC" ? (

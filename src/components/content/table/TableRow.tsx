@@ -17,7 +17,6 @@ const TableRow = ({
 	setCryptoCurrencyData: React.Dispatch<React.SetStateAction<CoinI[]>>;
 	id: number;
 }) => {
-	const [favoriteButtonStatus, setFavoriteButtonStatus] = useState(false);
 	const [coinImage, setCoinImage] = useState(
 		`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`
 	);
@@ -89,23 +88,17 @@ const TableRow = ({
 
 	return (
 		<>
-			<tr className="h-14 bg-gray-100 leading-10 border-t-2 border-neutral-300 text-black box-border text-center">
-				<td className="pl-4">
+			<tr className="bg-gray-100 text-black">
+				<td>
 					<FontAwesomeIcon
-						icon={
-							coin.isFavorite || favoriteButtonStatus
-								? faHeartActive
-								: faHeartInactive
-						}
-						className="text-red-500 cursor-pointer text-xl"
+						icon={coin.isFavorite ? faHeartActive : faHeartInactive}
+						className="text-red-500 cursor-pointer"
 						onClick={changeFavoriteStatus}
-						onMouseEnter={() => setFavoriteButtonStatus(true)}
-						onMouseLeave={() => setFavoriteButtonStatus(false)}
 					/>
 				</td>
-				<td className="w-3">{coin.rank}</td>
+				<td>{coin.rank}</td>
 				<td>
-					<div className="flex justify-center items-center gap-2">
+					<div className="flex items-center gap-2">
 						<img
 							src={coinImage}
 							onError={() =>
@@ -114,27 +107,37 @@ const TableRow = ({
 								)
 							}
 							alt={`${coin.name} icon`}
-							className="w-6 h-6"
+							className="w-7 h-7"
 						/>
-						{coin.name}
+
+						<p>{coin.name === "" || coin.name === null ? "-" : coin.name}</p>
+						<p>
+							{coin.symbol === "" || coin.symbol === null
+								? null
+								: `(${coin.symbol})`}
+						</p>
 					</div>
 				</td>
 				<td>
-					{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}
-					{coin.priceUsd}
+					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
+					<p className="text-xs">{coin.priceUsd}</p>
 				</td>
-				<td>{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}</td>
-				<td>
+				<td className="hidden md:block">
+					{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}
+				</td>
+				<td className="hidden md:block">
 					{formatCoinPropertyValue(coin.vwap24Hr, "vwap24Hr")}
 					<br></br>
 					<p>{coin.vwap24Hr}</p>
 				</td>
-				<td>
+				<td className="hidden md:block">
 					{formatCoinPropertyValue(coin.supply, "supply")}
 					<br></br>
 					{coin.supply}
 				</td>
-				<td>{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}</td>
+				<td className="hidden md:block">
+					{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}
+				</td>
 				<td
 					className={assignProperColorForPercentage(
 						Number(coin.changePercent24Hr)
