@@ -63,6 +63,12 @@ const TableRow = ({
 					case 3:
 						suffix = "b";
 						break;
+					case 4:
+						suffix = "t";
+						break;
+					case 5:
+						suffix = "q";
+						break;
 				}
 		}
 
@@ -115,22 +121,25 @@ const TableRow = ({
 				</td>
 				<td>
 					{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}
-					<br></br>
-					<p>{coin.priceUsd}</p>
+					{coin.priceUsd}
 				</td>
 				<td>{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}</td>
-				<td
-					className={assignProperColorForPercentage(
-						Number(coin.changePercent24Hr)
-					)}
-				>{`${Number(coin.changePercent24Hr).toFixed(2)}%`}</td>
 				<td>
 					{formatCoinPropertyValue(coin.vwap24Hr, "vwap24Hr")}
 					<br></br>
 					<p>{coin.vwap24Hr}</p>
 				</td>
-				<td>{formatCoinPropertyValue(coin.supply, "supply")}</td>
+				<td>
+					{formatCoinPropertyValue(coin.supply, "supply")}
+					<br></br>
+					{coin.supply}
+				</td>
 				<td>{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}</td>
+				<td
+					className={assignProperColorForPercentage(
+						Number(coin.changePercent24Hr)
+					)}
+				>{`${Number(coin.changePercent24Hr).toFixed(2)}%`}</td>
 			</tr>
 		</>
 	);
