@@ -41,10 +41,10 @@ const TABLE_HEADERS: { nameToView: string; propertyName: keyof CoinI }[] = [
 	{ nameToView: "Name", propertyName: "name" },
 	{ nameToView: "Price", propertyName: "priceUsd" },
 	{ nameToView: "Market Cap", propertyName: "marketCapUsd" },
-	{ nameToView: "Change (24H)", propertyName: "changePercent24Hr" },
 	{ nameToView: "VWAP (24H)", propertyName: "vwap24Hr" },
 	{ nameToView: "Supply", propertyName: "supply" },
 	{ nameToView: "Volume (24H)", propertyName: "volumeUsd24Hr" },
+	{ nameToView: "Change (24H)", propertyName: "changePercent24Hr" },
 ];
 
 const CryptoTable = () => {
