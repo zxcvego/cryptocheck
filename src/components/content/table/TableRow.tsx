@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartActive } from "@fortawesome/free-solid-svg-icons";
 import { CoinI } from "../CryptoTable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const COIN_ICON_URL = "https://assets.coincap.io/assets/icons/";
 
@@ -20,6 +20,10 @@ const TableRow = ({
 	const [coinImage, setCoinImage] = useState(
 		`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`
 	);
+
+	useEffect(() => {
+		setCoinImage(`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`);
+	}, [coin.symbol]);
 
 	const changeFavoriteStatus = () => {
 		const tempArray = [...cryptoCurrencyData];
@@ -109,7 +113,6 @@ const TableRow = ({
 							alt={`${coin.name} icon`}
 							className="w-7 h-7"
 						/>
-
 						<p>{coin.name === "" || coin.name === null ? "-" : coin.name}</p>
 						<p>
 							{coin.symbol === "" || coin.symbol === null
