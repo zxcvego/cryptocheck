@@ -1,11 +1,11 @@
 import Navbar from "./components/Navbar";
-import Content from "./components/Content";
+import CryptoTable from "./components/content/CryptoTable";
 
 const App = () => {
 	return (
 		<>
 			<Navbar />
-			<Content />
+			<CryptoTable />
 		</>
 	);
 };
