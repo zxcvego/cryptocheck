@@ -4,6 +4,7 @@ import TableContent from "./table/TableContent";
 import ViewMoreButton from "./table/ViewMoreButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartActive } from "@fortawesome/free-solid-svg-icons";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 export interface CoinI {
@@ -118,8 +119,8 @@ const CryptoTable = () => {
 					<tr>
 						<th>
 							<FontAwesomeIcon
-								icon={faHeartInactive}
-								className="text-blue-500 cursor-pointer"
+								icon={showFavoriteCoins ? faHeartActive : faHeartInactive}
+								className="text-purple cursor-pointer"
 								onClick={() => {
 									setShowFavoriteCoins(!showFavoriteCoins);
 								}}
@@ -142,12 +143,12 @@ const CryptoTable = () => {
 											sortProps.type === "ASC" ? (
 												<FontAwesomeIcon
 													icon={faArrowUp}
-													className="text-blue-500"
+													className="text-purple"
 												/>
 											) : (
 												<FontAwesomeIcon
 													icon={faArrowDown}
-													className="text-blue-500"
+													className="text-purple"
 												/>
 											)
 										) : null}

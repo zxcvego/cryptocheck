@@ -96,7 +96,11 @@ const TableRow = ({
 				<td>
 					<FontAwesomeIcon
 						icon={coin.isFavorite ? faHeartActive : faHeartInactive}
-						className="text-gray cursor-pointer"
+						className={
+							coin.isFavorite
+								? "text-purple cursor-pointer"
+								: "text-gray cursor-pointer"
+						}
 						onClick={changeFavoriteStatus}
 					/>
 				</td>
