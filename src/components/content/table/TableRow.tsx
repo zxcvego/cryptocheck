@@ -1,6 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faHeartActive } from "@fortawesome/free-solid-svg-icons";
+import {
+	faHeart as faHeartActive,
+	faArrowTrendDown,
+	faArrowTrendUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { CoinI } from "../CryptoTable";
 import { useEffect, useState } from "react";
 
@@ -90,6 +94,14 @@ const TableRow = ({
 			: (color = "text-red");
 	};
 
+	const assignIconForPercentage = (value: number) => {
+		return value === 0 ? null : value > 0 ? (
+			<FontAwesomeIcon icon={faArrowTrendUp} />
+		) : (
+			<FontAwesomeIcon icon={faArrowTrendDown} />
+		);
+	};
+
 	return (
 		<>
 			<tr className="odd:bg-black even:bg-graphite text-white">
@@ -143,10 +155,13 @@ const TableRow = ({
 					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
 				</td>
 				<td
-					className={assignProperColorForPercentage(
+					className={`${assignProperColorForPercentage(
 						Number(coin.changePercent24Hr)
-					)}
-				>{`${Number(coin.changePercent24Hr).toFixed(2)}%`}</td>
+					)} flex gap-2 items-center justify-center`}
+				>
+					{assignIconForPercentage(Number(coin.changePercent24Hr))}
+					{`${Number(coin.changePercent24Hr).toFixed(2)}`}
+				</td>
 			</tr>
 		</>
 	);
