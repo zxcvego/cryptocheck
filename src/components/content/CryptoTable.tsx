@@ -52,19 +52,19 @@ const TABLE_HEADERS: {
 		cssStyle: "hidden lg:block",
 	},
 	{
-		nameToView: "VWAP (24H)",
+		nameToView: "24h VWAP",
 		propertyName: "vwap24Hr",
 		cssStyle: "hidden lg:block",
 	},
 	{ nameToView: "Supply", propertyName: "supply", cssStyle: "hidden lg:block" },
 	{
-		nameToView: "Volume (24H)",
+		nameToView: "24h Volume",
 		propertyName: "volumeUsd24Hr",
 		cssStyle: "hidden lg:block",
 	},
 	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "" },
 	{
-		nameToView: "Change (24H)",
+		nameToView: "24h Change",
 		propertyName: "changePercent24Hr",
 		cssStyle: "",
 	},
