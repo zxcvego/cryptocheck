@@ -121,9 +121,7 @@ const TableRow = ({
 						</p>
 					</div>
 				</td>
-				<td>
-					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
-				</td>
+
 				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}
 				</td>
@@ -136,6 +134,9 @@ const TableRow = ({
 				</td>
 				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}
+				</td>
+				<td>
+					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
 				</td>
 				<td
 					className={assignProperColorForPercentage(

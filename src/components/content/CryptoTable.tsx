@@ -44,7 +44,7 @@ const TABLE_HEADERS: {
 }[] = [
 	{ nameToView: "Rank", propertyName: "rank", cssStyle: "" },
 	{ nameToView: "Name", propertyName: "name", cssStyle: "" },
-	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "" },
+
 	{
 		nameToView: "Market Cap",
 		propertyName: "marketCapUsd",
@@ -61,6 +61,7 @@ const TABLE_HEADERS: {
 		propertyName: "volumeUsd24Hr",
 		cssStyle: "hidden lg:block",
 	},
+	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "" },
 	{
 		nameToView: "Change (24H)",
 		propertyName: "changePercent24Hr",
@@ -112,7 +113,7 @@ const CryptoTable = () => {
 
 	return (
 		<div className="font-inter bg-black text-white">
-			<table className="container mx-auto text-white border-dark-grey  border-2  rounded-t-2xl overflow-hidden border-separate">
+			<table className="container mx-auto text-white border-darker-grey  border-2  rounded-t-2xl overflow-hidden border-separate text-xl">
 				<thead className="bg-graphite ">
 					<tr>
 						<th>
