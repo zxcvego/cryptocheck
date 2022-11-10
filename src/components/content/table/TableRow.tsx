@@ -41,8 +41,8 @@ const TableRow = ({
 		propertyToFormat: keyof Omit<CoinI, "isFavorite">
 	) => {
 		if (value === "0.0000000000000000" || value === null) return "-";
-
 		const numberWithCommas = Number(value).toLocaleString("en-US");
+		if (numberWithCommas === "0") return `$${value}`;
 		const commaCount = numberWithCommas.split(",").length - 1;
 		const commaIndex = numberWithCommas.indexOf(",");
 		let suffix = "";
@@ -75,9 +75,9 @@ const TableRow = ({
 				}
 		}
 
-		if (propertyToFormat === "priceUsd" || propertyToFormat === "vwap24Hr")
+		if (propertyToFormat === "priceUsd" || propertyToFormat === "vwap24Hr") {
 			return `${prefix}${numberWithCommas}${suffix}`;
-
+		}
 		return `${prefix}${numberWithCommas.slice(0, commaIndex + 3)}${suffix}`;
 	};
 
@@ -123,7 +123,6 @@ const TableRow = ({
 				</td>
 				<td>
 					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
-					<p className="text-xs">{coin.priceUsd}</p>
 				</td>
 				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}
