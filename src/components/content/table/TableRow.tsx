@@ -86,17 +86,17 @@ const TableRow = ({
 		return value === 0
 			? (color = "")
 			: value > 0
-			? (color = "text-green-500")
-			: (color = "text-red-500");
+			? (color = "text-green")
+			: (color = "text-red");
 	};
 
 	return (
 		<>
-			<tr className="bg-gray-100 text-black">
+			<tr className="odd:bg-black even:bg-graphite text-white">
 				<td>
 					<FontAwesomeIcon
 						icon={coin.isFavorite ? faHeartActive : faHeartInactive}
-						className="text-red-500 cursor-pointer"
+						className="text-gray cursor-pointer"
 						onClick={changeFavoriteStatus}
 					/>
 				</td>
@@ -125,20 +125,17 @@ const TableRow = ({
 					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
 					<p className="text-xs">{coin.priceUsd}</p>
 				</td>
-				<td className="hidden md:block">
+				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}
 				</td>
-				<td className="hidden md:block">
+				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.vwap24Hr, "vwap24Hr")}
 					<br></br>
-					<p>{coin.vwap24Hr}</p>
 				</td>
-				<td className="hidden md:block">
+				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.supply, "supply")}
-					<br></br>
-					{coin.supply}
 				</td>
-				<td className="hidden md:block">
+				<td className="hidden lg:block">
 					{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}
 				</td>
 				<td

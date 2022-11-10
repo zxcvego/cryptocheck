@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import TableContent from "./table/tableviews/TableContent";
+import TableContent from "./table/TableContent";
 import ViewMoreButton from "./table/ViewMoreButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
@@ -48,18 +48,18 @@ const TABLE_HEADERS: {
 	{
 		nameToView: "Market Cap",
 		propertyName: "marketCapUsd",
-		cssStyle: "hidden md:block",
+		cssStyle: "hidden lg:block",
 	},
 	{
 		nameToView: "VWAP (24H)",
 		propertyName: "vwap24Hr",
-		cssStyle: "hidden md:block",
+		cssStyle: "hidden lg:block",
 	},
-	{ nameToView: "Supply", propertyName: "supply", cssStyle: "hidden md:block" },
+	{ nameToView: "Supply", propertyName: "supply", cssStyle: "hidden lg:block" },
 	{
 		nameToView: "Volume (24H)",
 		propertyName: "volumeUsd24Hr",
-		cssStyle: "hidden md:block",
+		cssStyle: "hidden lg:block",
 	},
 	{
 		nameToView: "Change (24H)",
@@ -111,9 +111,9 @@ const CryptoTable = () => {
 	};
 
 	return (
-		<>
-			<table className="container mx-auto text-white rounded-t-md ">
-				<thead>
+		<div className="font-inter bg-black text-white">
+			<table className="container mx-auto text-white border-dark-grey  border-2  rounded-t-2xl overflow-hidden border-separate">
+				<thead className="bg-graphite ">
 					<tr>
 						<th>
 							<FontAwesomeIcon
@@ -131,7 +131,9 @@ const CryptoTable = () => {
 									onClick={() => {
 										changeSortingCategory(tableHeader);
 									}}
-									className={`cursor-pointer ` + tableHeader.cssStyle}
+									className={
+										`cursor-pointer text-dark-grey ` + tableHeader.cssStyle
+									}
 								>
 									<div>
 										{tableHeader.nameToView}
@@ -168,7 +170,7 @@ const CryptoTable = () => {
 			<ViewMoreButton
 				increaseAmountOfVisibleCoins={increaseAmountOfVisibleCoins}
 			/>
-		</>
+		</div>
 	);
 };
 
