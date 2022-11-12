@@ -18,7 +18,11 @@ module.exports = {
 				green: "#0DDA89",
 			},
 			letterSpacing: {
+				"small-logo": "0.4em",
 				logo: "1.16em",
+			},
+			screens: {
+				"x-sm": "420px",
 			},
 		},
 	},

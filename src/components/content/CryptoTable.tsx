@@ -43,30 +43,38 @@ const TABLE_HEADERS: {
 	propertyName: keyof CoinI;
 	cssStyle: string;
 }[] = [
-	{ nameToView: "Rank", propertyName: "rank", cssStyle: "" },
-	{ nameToView: "Name", propertyName: "name", cssStyle: "" },
+	{
+		nameToView: "Rank",
+		propertyName: "rank",
+		cssStyle: "hidden md:table-cell",
+	},
+	{ nameToView: "Name", propertyName: "name", cssStyle: "text-left " },
 
 	{
 		nameToView: "Market Cap",
 		propertyName: "marketCapUsd",
-		cssStyle: "hidden lg:block",
+		cssStyle: "hidden md:table-cell",
 	},
 	{
 		nameToView: "24h VWAP",
 		propertyName: "vwap24Hr",
-		cssStyle: "hidden lg:block",
+		cssStyle: "hidden xl:table-cell",
 	},
-	{ nameToView: "Supply", propertyName: "supply", cssStyle: "hidden lg:block" },
+	{
+		nameToView: "Supply",
+		propertyName: "supply",
+		cssStyle: "hidden xl:table-cell",
+	},
 	{
 		nameToView: "24h Volume",
 		propertyName: "volumeUsd24Hr",
-		cssStyle: "hidden lg:block",
+		cssStyle: "hidden lg:table-cell",
 	},
-	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "" },
+	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "text-left" },
 	{
 		nameToView: "24h Change",
 		propertyName: "changePercent24Hr",
-		cssStyle: "",
+		cssStyle: "overflow-hidden",
 	},
 ];
 
@@ -91,7 +99,6 @@ const CryptoTable = () => {
 					}))
 				);
 				setLoading(false);
-				console.log(response);
 			},
 			(error) => {
 				console.log(error);
@@ -113,66 +120,71 @@ const CryptoTable = () => {
 	};
 
 	return (
-		<div className="font-inter bg-black text-white">
-			<table className="container mx-auto text-white border-darker-grey  border-2  rounded-t-2xl overflow-hidden border-separate text-xl">
-				<thead className="bg-graphite ">
-					<tr>
-						<th>
-							<FontAwesomeIcon
-								icon={showFavoriteCoins ? faHeartActive : faHeartInactive}
-								className="text-purple cursor-pointer"
-								onClick={() => {
-									setShowFavoriteCoins(!showFavoriteCoins);
-								}}
-							/>
-						</th>
-						{TABLE_HEADERS.map((tableHeader, i) => {
-							return (
-								<th
-									key={i}
+		<>
+			<div className="bg-black font-inter text-white overflow-hidden">
+				<table className=" mx-auto text-white text-xs  md:text-lg lg:text-xl border-darker-grey border-2 rounded-t-2xl w-2/3">
+					<thead className="bg-graphite ">
+						<tr>
+							<th className="px-3 py-5">
+								<FontAwesomeIcon
+									icon={showFavoriteCoins ? faHeartActive : faHeartInactive}
+									className="text-purple cursor-pointer"
 									onClick={() => {
-										changeSortingCategory(tableHeader);
+										setShowFavoriteCoins(!showFavoriteCoins);
 									}}
-									className={
-										`cursor-pointer text-dark-grey ` + tableHeader.cssStyle
-									}
-								>
-									<div>
-										{tableHeader.nameToView}
-										{tableHeader.propertyName === sortProps.column ? (
-											sortProps.type === "ASC" ? (
-												<FontAwesomeIcon
-													icon={faArrowUp}
-													className="text-purple"
-												/>
-											) : (
-												<FontAwesomeIcon
-													icon={faArrowDown}
-													className="text-purple"
-												/>
-											)
-										) : null}
-									</div>
-								</th>
-							);
-						})}
-					</tr>
-				</thead>
-				<tbody>
-					<TableContent
-						loading={loading}
-						cryptoCurrencyData={cryptoCurrencyData}
-						setCryptoCurrencyData={setCryptoCurrencyData}
-						amountOfVisibleCoins={amountOfVisibleCoins}
-						showFavoriteCoins={showFavoriteCoins}
-						sortProps={sortProps}
-					/>
-				</tbody>
-			</table>
+								/>
+							</th>
+							{TABLE_HEADERS.map((tableHeader, i) => {
+								return (
+									<th
+										key={i}
+										onClick={() => {
+											changeSortingCategory(tableHeader);
+										}}
+										className={
+											`cursor-pointer text-dark-grey md:px-2 ` +
+											tableHeader.cssStyle
+										}
+									>
+										<div className="flex items-center md:whitespace-nowrap gap-1 ">
+											<p>{tableHeader.nameToView}</p>
+											<p>
+												{tableHeader.propertyName === sortProps.column ? (
+													sortProps.type === "ASC" ? (
+														<FontAwesomeIcon
+															icon={faArrowUp}
+															className="text-purple"
+														/>
+													) : (
+														<FontAwesomeIcon
+															icon={faArrowDown}
+															className="text-purple"
+														/>
+													)
+												) : null}
+											</p>
+										</div>
+									</th>
+								);
+							})}
+						</tr>
+					</thead>
+					<tbody>
+						<TableContent
+							loading={loading}
+							cryptoCurrencyData={cryptoCurrencyData}
+							setCryptoCurrencyData={setCryptoCurrencyData}
+							amountOfVisibleCoins={amountOfVisibleCoins}
+							showFavoriteCoins={showFavoriteCoins}
+							sortProps={sortProps}
+						/>
+					</tbody>
+				</table>
+			</div>
 			<ViewMoreButton
 				increaseAmountOfVisibleCoins={increaseAmountOfVisibleCoins}
 			/>
-		</div>
+		</>
 	);
 };
 

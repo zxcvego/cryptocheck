@@ -46,7 +46,7 @@ const TableRow = ({
 	) => {
 		if (value === "0.0000000000000000" || value === null) return "-";
 		const numberWithCommas = Number(value).toLocaleString("en-US");
-		if (numberWithCommas === "0") return `$${value}`;
+		if (numberWithCommas === "0") return `$${Number(value).toFixed(6)}`;
 		const commaCount = numberWithCommas.split(",").length - 1;
 		const commaIndex = numberWithCommas.indexOf(",");
 		let suffix = "";
@@ -104,21 +104,25 @@ const TableRow = ({
 
 	return (
 		<>
-			<tr className="odd:bg-black even:bg-graphite text-white">
-				<td>
-					<FontAwesomeIcon
-						icon={coin.isFavorite ? faHeartActive : faHeartInactive}
-						className={
-							coin.isFavorite
-								? "text-purple cursor-pointer"
-								: "text-gray cursor-pointer"
-						}
-						onClick={changeFavoriteStatus}
-					/>
+			<tr className="odd:bg-black even:bg-graphite text-white h-20 overflow-hidden">
+				<td className="text-center">
+					<p>
+						<FontAwesomeIcon
+							icon={coin.isFavorite ? faHeartActive : faHeartInactive}
+							className={
+								coin.isFavorite
+									? "text-purple cursor-pointer"
+									: "text-gray cursor-pointer"
+							}
+							onClick={changeFavoriteStatus}
+						/>
+					</p>
 				</td>
-				<td>{coin.rank}</td>
-				<td>
-					<div className="flex items-center gap-2">
+				<td className="hidden md:table-cell text-center">
+					<p>{coin.rank}</p>
+				</td>
+				<td className="md:px-2">
+					<div className="flex items-center gap-2 overflow-hidden ">
 						<img
 							src={coinImage}
 							onError={() =>
@@ -127,40 +131,49 @@ const TableRow = ({
 								)
 							}
 							alt={`${coin.name} icon`}
-							className="w-7 h-7"
+							className="w-7 h-7 md:w-8 md:h-8"
 						/>
-						<p>{coin.name === "" || coin.name === null ? "-" : coin.name}</p>
-						<p>
-							{coin.symbol === "" || coin.symbol === null
-								? null
-								: `(${coin.symbol})`}
-						</p>
+						<div className="w-24 x-sm:w-fit">
+							<p className="w-16 truncate x-sm:w-fit">
+								{coin.name === "" || coin.name === null ? "-" : coin.name}
+							</p>
+							<p className="text-dark-grey">
+								{coin.symbol === "" || coin.symbol === null
+									? null
+									: coin.symbol}
+							</p>
+						</div>
 					</div>
 				</td>
 
-				<td className="hidden lg:block">
-					{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}
+				<td className="hidden md:table-cell text-center">
+					<p>{formatCoinPropertyValue(coin.marketCapUsd, "marketCapUsd")}</p>
 				</td>
-				<td className="hidden lg:block">
-					{formatCoinPropertyValue(coin.vwap24Hr, "vwap24Hr")}
-					<br></br>
+				<td className="hidden xl:table-cell text-center">
+					<p>{formatCoinPropertyValue(coin.vwap24Hr, "vwap24Hr")}</p>
 				</td>
-				<td className="hidden lg:block">
-					{formatCoinPropertyValue(coin.supply, "supply")}
+				<td className="hidden xl:table-cell text-center">
+					<p>{formatCoinPropertyValue(coin.supply, "supply")}</p>
 				</td>
-				<td className="hidden lg:block">
-					{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}
+				<td className="hidden lg:table-cell text-center">
+					<p>{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}</p>
 				</td>
-				<td>
+				<td className="md:px-2">
 					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
 				</td>
 				<td
 					className={`${assignProperColorForPercentage(
 						Number(coin.changePercent24Hr)
-					)} flex gap-2 items-center justify-center`}
+					)}`}
 				>
-					{assignIconForPercentage(Number(coin.changePercent24Hr))}
-					{`${Number(coin.changePercent24Hr).toFixed(2)}`}
+					<div className="flex gap-1 items-center justify-center">
+						<p>{assignIconForPercentage(Number(coin.changePercent24Hr))}</p>
+						<p>
+							{Number(coin.changePercent24Hr) === 0.0
+								? "-"
+								: `${Math.abs(Number(coin.changePercent24Hr)).toFixed(2)}`}
+						</p>
+					</div>
 				</td>
 			</tr>
 		</>
