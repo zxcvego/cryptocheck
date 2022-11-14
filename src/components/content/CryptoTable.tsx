@@ -139,6 +139,7 @@ const CryptoTable = () => {
 									key={i}
 									onClick={() => {
 										changeSortingCategory(tableHeader);
+										setAmountOfVisibleCoins(20);
 									}}
 									className={
 										`cursor-pointer text-dark-grey md:px-2 ` +
