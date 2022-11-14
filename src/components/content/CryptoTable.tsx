@@ -121,66 +121,64 @@ const CryptoTable = () => {
 
 	return (
 		<>
-			<div className="bg-black font-inter text-white overflow-hidden">
-				<table className=" mx-auto text-white text-xs  md:text-lg lg:text-xl border-darker-grey border-2 rounded-t-2xl w-2/3">
-					<thead className="bg-graphite ">
-						<tr>
-							<th className="px-3 py-5">
-								<FontAwesomeIcon
-									icon={showFavoriteCoins ? faHeartActive : faHeartInactive}
-									className="text-purple cursor-pointer"
+			<table className="bg-black font-inter text-white overflow-hidden mx-auto text-xs md:text-lg lg:text-xl border-darker-grey border-2 rounded-t-2xl w-2/3">
+				<thead className="bg-graphite ">
+					<tr>
+						<th className="px-3 py-5">
+							<FontAwesomeIcon
+								icon={showFavoriteCoins ? faHeartActive : faHeartInactive}
+								className="text-purple cursor-pointer"
+								onClick={() => {
+									setShowFavoriteCoins(!showFavoriteCoins);
+								}}
+							/>
+						</th>
+						{TABLE_HEADERS.map((tableHeader, i) => {
+							return (
+								<th
+									key={i}
 									onClick={() => {
-										setShowFavoriteCoins(!showFavoriteCoins);
+										changeSortingCategory(tableHeader);
 									}}
-								/>
-							</th>
-							{TABLE_HEADERS.map((tableHeader, i) => {
-								return (
-									<th
-										key={i}
-										onClick={() => {
-											changeSortingCategory(tableHeader);
-										}}
-										className={
-											`cursor-pointer text-dark-grey md:px-2 ` +
-											tableHeader.cssStyle
-										}
-									>
-										<div className="flex items-center md:whitespace-nowrap gap-1 ">
-											<p>{tableHeader.nameToView}</p>
-											<p>
-												{tableHeader.propertyName === sortProps.column ? (
-													sortProps.type === "ASC" ? (
-														<FontAwesomeIcon
-															icon={faArrowUp}
-															className="text-purple"
-														/>
-													) : (
-														<FontAwesomeIcon
-															icon={faArrowDown}
-															className="text-purple"
-														/>
-													)
-												) : null}
-											</p>
-										</div>
-									</th>
-								);
-							})}
-						</tr>
-					</thead>
-					<tbody>
-						<TableContent
-							loading={loading}
-							cryptoCurrencyData={cryptoCurrencyData}
-							setCryptoCurrencyData={setCryptoCurrencyData}
-							amountOfVisibleCoins={amountOfVisibleCoins}
-							showFavoriteCoins={showFavoriteCoins}
-							sortProps={sortProps}
-						/>
-					</tbody>
-				</table>
-			</div>
+									className={
+										`cursor-pointer text-dark-grey md:px-2 ` +
+										tableHeader.cssStyle
+									}
+								>
+									<div className="flex items-center md:whitespace-nowrap gap-1 ">
+										<p>{tableHeader.nameToView}</p>
+										<p>
+											{tableHeader.propertyName === sortProps.column ? (
+												sortProps.type === "ASC" ? (
+													<FontAwesomeIcon
+														icon={faArrowUp}
+														className="text-purple"
+													/>
+												) : (
+													<FontAwesomeIcon
+														icon={faArrowDown}
+														className="text-purple"
+													/>
+												)
+											) : null}
+										</p>
+									</div>
+								</th>
+							);
+						})}
+					</tr>
+				</thead>
+				<tbody>
+					<TableContent
+						loading={loading}
+						cryptoCurrencyData={cryptoCurrencyData}
+						setCryptoCurrencyData={setCryptoCurrencyData}
+						amountOfVisibleCoins={amountOfVisibleCoins}
+						showFavoriteCoins={showFavoriteCoins}
+						sortProps={sortProps}
+					/>
+				</tbody>
+			</table>
 			<ViewMoreButton
 				increaseAmountOfVisibleCoins={increaseAmountOfVisibleCoins}
 			/>
