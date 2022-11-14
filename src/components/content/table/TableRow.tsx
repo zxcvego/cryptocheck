@@ -7,8 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { CoinI } from "../CryptoTable";
 import { useEffect, useState } from "react";
-
-const COIN_ICON_URL = "https://assets.coincap.io/assets/icons/";
+import genericCoin from "../../../assets/golden-coin.png";
 
 const TableRow = ({
 	coin,
@@ -21,12 +20,11 @@ const TableRow = ({
 	setCryptoCurrencyData: React.Dispatch<React.SetStateAction<CoinI[]>>;
 	id: number;
 }) => {
-	const [coinImage, setCoinImage] = useState(
-		`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`
-	);
+	const COIN_ICON_URL = `https://assets.coincap.io/assets/icons/${coin.symbol.toLowerCase()}@2x.png`;
+	const [coinImage, setCoinImage] = useState(COIN_ICON_URL);
 
 	useEffect(() => {
-		setCoinImage(`${COIN_ICON_URL}${coin.symbol.toLowerCase()}@2x.png`);
+		setCoinImage(COIN_ICON_URL);
 	}, [coin.symbol]);
 
 	const changeFavoriteStatus = () => {
@@ -125,13 +123,9 @@ const TableRow = ({
 					<div className="flex items-center gap-2 overflow-hidden ">
 						<img
 							src={coinImage}
-							onError={() =>
-								setCoinImage(
-									`https://toppng.com/uploads/preview/gold-coins-11530998393xtf85riude.png`
-								)
-							}
 							alt={`${coin.name} icon`}
 							className="w-7 h-7 md:w-8 md:h-8"
+							onError={() => setCoinImage(genericCoin)}
 						/>
 						<div className="w-24 x-sm:w-fit">
 							<p className="w-16 truncate x-sm:w-fit">
