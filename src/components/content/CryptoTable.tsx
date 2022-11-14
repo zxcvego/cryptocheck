@@ -180,9 +180,11 @@ const CryptoTable = () => {
 					/>
 				</tbody>
 			</table>
-			<ViewMoreButton
-				increaseAmountOfVisibleCoins={increaseAmountOfVisibleCoins}
-			/>
+			{showFavoriteCoins ? null : (
+				<ViewMoreButton
+					increaseAmountOfVisibleCoins={increaseAmountOfVisibleCoins}
+				/>
+			)}
 		</>
 	);
 };
