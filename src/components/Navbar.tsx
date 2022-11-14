@@ -1,7 +1,9 @@
 const Navbar = () => {
 	return (
-		<div className="text-2xl text-center bg-black text-white select-none pt-8 pb-8">
-			<h1 className="tracking-small-logo sm:tracking-logo">CRYPTOCHECK</h1>
+		<div className="bg-black text-white select-none pt-8 pb-8">
+			<h1 className="text-center tracking-small-logo sm:tracking-logo text-2xl uppercase">
+				CryptoCheck
+			</h1>
 		</div>
 	);
 };

@@ -8,7 +8,6 @@ import {
 import { CoinI } from "../CryptoTable";
 import { useEffect, useState } from "react";
 import genericCoin from "../../../assets/golden-coin.png";
-
 const TableRow = ({
 	coin,
 	cryptoCurrencyData,
@@ -124,7 +123,7 @@ const TableRow = ({
 						<img
 							src={coinImage}
 							alt={`${coin.name} icon`}
-							className="w-7 h-7 md:w-8 md:h-8"
+							className="w-5 h-5 md:w-7 md:h-7"
 							onError={() => setCoinImage(genericCoin)}
 						/>
 						<div className="w-24 x-sm:w-fit">
@@ -152,7 +151,7 @@ const TableRow = ({
 				<td className="hidden lg:table-cell text-center">
 					<p>{formatCoinPropertyValue(coin.volumeUsd24Hr, "volumeUsd24Hr")}</p>
 				</td>
-				<td className="md:px-2">
+				<td className="md:px-2 text-center">
 					<p>{formatCoinPropertyValue(coin.priceUsd, "priceUsd")}</p>
 				</td>
 				<td

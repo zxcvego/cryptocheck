@@ -5,7 +5,7 @@ import ViewMoreButton from "./table/ViewMoreButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartInactive } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartActive } from "@fortawesome/free-solid-svg-icons";
-import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 export interface CoinI {
 	rank: string;
@@ -48,7 +48,7 @@ const TABLE_HEADERS: {
 		propertyName: "rank",
 		cssStyle: "hidden md:table-cell",
 	},
-	{ nameToView: "Name", propertyName: "name", cssStyle: "text-left " },
+	{ nameToView: "Name", propertyName: "name", cssStyle: "" },
 
 	{
 		nameToView: "Market Cap",
@@ -70,7 +70,7 @@ const TABLE_HEADERS: {
 		propertyName: "volumeUsd24Hr",
 		cssStyle: "hidden lg:table-cell",
 	},
-	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "text-left" },
+	{ nameToView: "Price", propertyName: "priceUsd", cssStyle: "text-center" },
 	{
 		nameToView: "24h Change",
 		propertyName: "changePercent24Hr",
@@ -121,10 +121,10 @@ const CryptoTable = () => {
 
 	return (
 		<>
-			<table className="bg-black font-inter text-white overflow-hidden mx-auto text-xs md:text-lg lg:text-xl border-darker-grey border-2 rounded-t-2xl w-2/3">
-				<thead className="bg-graphite ">
+			<table className="bg-black font-inter text-white overflow-hidden mx-auto text-xs sm:text-sm md:text-base border-darker-grey border-2 rounded-t-2xl w-full sm:min-w-fit lg:w-8/12">
+				<thead className="bg-graphite">
 					<tr>
-						<th className="px-3 py-5">
+						<th className="py-5 px-2">
 							<FontAwesomeIcon
 								icon={showFavoriteCoins ? faHeartActive : faHeartInactive}
 								className="text-purple cursor-pointer"
@@ -142,23 +142,23 @@ const CryptoTable = () => {
 										setAmountOfVisibleCoins(20);
 									}}
 									className={
-										`cursor-pointer text-dark-grey md:px-2 ` +
+										`cursor-pointer text-dark-grey px-3 w-fit hover:text-neutral-200 text-xs sm:text-sm md:text-lg ` +
 										tableHeader.cssStyle
 									}
 								>
-									<div className="flex items-center md:whitespace-nowrap gap-1 ">
-										<p>{tableHeader.nameToView}</p>
-										<p>
+									<div className="flex-column items-center justify-center md:whitespace-nowrap">
+										<p className="w-full">{tableHeader.nameToView}</p>
+										<p className="md:-m-1.5">
 											{tableHeader.propertyName === sortProps.column ? (
 												sortProps.type === "ASC" ? (
 													<FontAwesomeIcon
-														icon={faArrowUp}
-														className="text-purple"
+														icon={faChevronUp}
+														className="text-purple w-3 h-3"
 													/>
 												) : (
 													<FontAwesomeIcon
-														icon={faArrowDown}
-														className="text-purple"
+														icon={faChevronDown}
+														className="text-purple w-3 h-3"
 													/>
 												)
 											) : null}
