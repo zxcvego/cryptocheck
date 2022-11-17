@@ -15,10 +15,13 @@ const loadingBlocksCssStyles = [
 export const TableRowsSkeleton = () => {
 	return (
 		<>
-			{[...Array(20)].map((_x, _i) => (
-				<tr className="odd:bg-black even:bg-graphite text-white h-12 md:h-16">
-					{loadingBlocksCssStyles.map((styles, i_) => (
-						<td className={styles}>
+			{[...Array(20)].map((_x, i) => (
+				<tr
+					className="odd:bg-black even:bg-graphite text-white h-12 md:h-16"
+					key={i}
+				>
+					{loadingBlocksCssStyles.map((styles, i) => (
+						<td className={styles} key={i}>
 							<div
 								className={`bg-gray w-55% h-5 mx-auto animate-pulse opacity-30`}
 							></div>
