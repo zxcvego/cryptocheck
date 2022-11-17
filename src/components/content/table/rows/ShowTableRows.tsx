@@ -78,6 +78,10 @@ export const ShowTableRows = ({
 						/>
 					);
 				})}
+			{console.log(favoriteCoinsStorage)}
+			{showFavoriteCoins && favoriteCoinsStorage.length === 0 ? (
+				<p className="absolute mt-2">You have no favorite coins!</p>
+			) : null}
 		</>
 	);
 };
