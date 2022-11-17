@@ -107,7 +107,12 @@ const TableRow = ({
 		<>
 			<tr className="odd:bg-black even:bg-graphite text-white h-12 md:h-16 overflow-hidden">
 				<td className="text-center">
-					<button>
+					<button
+						onClick={() => {
+							makeCoinFavorite();
+							coinToCache();
+						}}
+					>
 						<FontAwesomeIcon
 							icon={coin.isFavorite ? faHeartActive : faHeartInactive}
 							className={
@@ -115,10 +120,6 @@ const TableRow = ({
 									? "text-purple cursor-pointer"
 									: "text-gray cursor-pointer"
 							}
-							onClick={() => {
-								makeCoinFavorite();
-								coinToCache();
-							}}
 						/>
 					</button>
 				</td>
