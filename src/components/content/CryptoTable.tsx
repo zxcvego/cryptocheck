@@ -36,7 +36,7 @@ const CryptoTable = () => {
 				setCryptoCurrencyData(
 					response.map((coin: CoinI) => ({
 						...coin,
-						isFavorite: getCachedFavoriteCoins.includes(coin.symbol)
+						isFavorite: getCachedFavoriteCoins.includes(coin.name)
 							? true
 							: false,
 					}))
