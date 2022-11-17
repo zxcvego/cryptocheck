@@ -24,6 +24,9 @@ module.exports = {
 			screens: {
 				"x-sm": "420px",
 			},
+			width: {
+				"55%": "55%",
+			},
 		},
 	},
 	plugins: [],
