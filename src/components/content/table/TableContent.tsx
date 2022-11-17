@@ -1,6 +1,7 @@
 import TableRow from "./TableRow";
 import { CoinI } from "../CryptoTable";
 import { SortPropsI } from "../CryptoTable";
+import { useState } from "react";
 export interface ContentI {
 	loading: boolean;
 	cryptoCurrencyData: CoinI[];
@@ -53,6 +54,10 @@ const TableContent = ({
 		return 0;
 	};
 
+	const [favoriteCoinsStorage, setFavoriteCoinsStorage] = useState<string[]>(
+		JSON.parse(localStorage.getItem("fav_coins") || "[]")
+	);
+
 	return (
 		<>
 			{loading ? (
@@ -62,6 +67,7 @@ const TableContent = ({
 					.sort((a, b) => {
 						return sortData(a, b, sortProps.type, sortProps.column);
 					})
+
 					.filter((coin) => (showFavoriteCoins ? coin.isFavorite : true))
 					.slice(0, amountOfVisibleCoins)
 					.map((coin, i) => {
@@ -71,7 +77,8 @@ const TableContent = ({
 								coin={coin}
 								cryptoCurrencyData={cryptoCurrencyData}
 								setCryptoCurrencyData={setCryptoCurrencyData}
-								id={i}
+								favoriteCoinsStorage={favoriteCoinsStorage}
+								setFavoriteCoinsStorage={setFavoriteCoinsStorage}
 							/>
 						);
 					})

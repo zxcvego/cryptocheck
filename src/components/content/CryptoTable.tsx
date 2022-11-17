@@ -92,12 +92,18 @@ const CryptoTable = () => {
 		axios.get(REQUEST_URL, REQUEST_CONFIG).then(
 			({ data }) => {
 				const response = data.data;
+				const getCachedFavoriteCoins = JSON.parse(
+					localStorage.getItem("fav_coins") || "[]"
+				);
 				setCryptoCurrencyData(
 					response.map((coin: CoinI) => ({
 						...coin,
-						isFavorite: false,
+						isFavorite: getCachedFavoriteCoins.includes(coin.symbol)
+							? true
+							: false,
 					}))
 				);
+
 				setLoading(false);
 			},
 			(error) => {
@@ -112,16 +118,19 @@ const CryptoTable = () => {
 
 	const changeSortingCategory = (tableHeader: TableHeadersI) => {
 		const sortPropsTemp = structuredClone(sortProps);
-		sortPropsTemp.column = tableHeader.propertyName;
-		sortPropsTemp.type === "ASC"
+
+		sortPropsTemp.type === "ASC" &&
+		sortPropsTemp.column === tableHeader.propertyName
 			? (sortPropsTemp.type = "DESC")
 			: (sortPropsTemp.type = "ASC");
+
+		sortPropsTemp.column = tableHeader.propertyName;
 		setSortProps(sortPropsTemp);
 	};
 
 	return (
 		<>
-			<table className="bg-black font-inter text-white overflow-hidden mx-auto text-xs sm:text-sm md:text-base border-darker-grey border-2 rounded-t-2xl w-full sm:min-w-fit lg:w-8/12">
+			<table className="bg-black font-inter text-white overflow-hidden mx-auto text-xs sm:text-sm md:text-base border-darker-grey border-2 rounded-t-2xl w-full sm:min-w-fit md:w-8/12">
 				<thead className="bg-graphite">
 					<tr>
 						<th className="py-5 px-2">

@@ -12,30 +12,21 @@ const TableRow = ({
 	coin,
 	cryptoCurrencyData,
 	setCryptoCurrencyData,
-	id,
+	favoriteCoinsStorage,
+	setFavoriteCoinsStorage,
 }: {
 	coin: CoinI;
 	cryptoCurrencyData: CoinI[];
 	setCryptoCurrencyData: React.Dispatch<React.SetStateAction<CoinI[]>>;
-	id: number;
+	favoriteCoinsStorage: string[];
+	setFavoriteCoinsStorage: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
 	const COIN_ICON_URL = `https://assets.coincap.io/assets/icons/${coin.symbol.toLowerCase()}@2x.png`;
 	const [coinImage, setCoinImage] = useState(COIN_ICON_URL);
 
 	useEffect(() => {
 		setCoinImage(COIN_ICON_URL);
-	}, [coin.symbol]);
-
-	const changeFavoriteStatus = () => {
-		const tempArray = [...cryptoCurrencyData];
-		const coinInData = cryptoCurrencyData.find(
-			(object: CoinI) => object.symbol === coin.symbol
-		);
-		const indexOfCurrentCoin = coinInData ? tempArray.indexOf(coinInData) : id;
-		tempArray[indexOfCurrentCoin].isFavorite =
-			!tempArray[indexOfCurrentCoin].isFavorite;
-		setCryptoCurrencyData(tempArray);
-	};
+	}, [COIN_ICON_URL]);
 
 	const formatCoinPropertyValue = (
 		value: string,
@@ -83,12 +74,7 @@ const TableRow = ({
 	};
 
 	const assignProperColorForPercentage = (value: number) => {
-		let color = "";
-		return value === 0
-			? (color = "")
-			: value > 0
-			? (color = "text-green")
-			: (color = "text-red");
+		return value === 0 ? "" : value > 0 ? "text-green" : "text-red";
 	};
 
 	const assignIconForPercentage = (value: number) => {
@@ -97,6 +83,25 @@ const TableRow = ({
 		) : (
 			<FontAwesomeIcon icon={faArrowTrendDown} />
 		);
+	};
+
+	const makeCoinFavorite = () => {
+		const tempCoins = [...cryptoCurrencyData];
+		const coinIndex = tempCoins.findIndex(
+			(e: CoinI) => e.symbol === coin.symbol
+		);
+		tempCoins[coinIndex].isFavorite = !tempCoins[coinIndex].isFavorite;
+		setCryptoCurrencyData(tempCoins);
+	};
+
+	const coinToCache = () => {
+		const tempFavoriteCoins = [...favoriteCoinsStorage];
+		tempFavoriteCoins.includes(coin.symbol)
+			? tempFavoriteCoins.splice(tempFavoriteCoins.indexOf(coin.symbol), 1)
+			: tempFavoriteCoins.push(coin.symbol);
+
+		setFavoriteCoinsStorage(tempFavoriteCoins);
+		localStorage.setItem("fav_coins", JSON.stringify(tempFavoriteCoins));
 	};
 
 	return (
@@ -111,7 +116,10 @@ const TableRow = ({
 									? "text-purple cursor-pointer"
 									: "text-gray cursor-pointer"
 							}
-							onClick={changeFavoriteStatus}
+							onClick={() => {
+								makeCoinFavorite();
+								coinToCache();
+							}}
 						/>
 					</p>
 				</td>
@@ -125,6 +133,7 @@ const TableRow = ({
 							alt={`${coin.name} icon`}
 							className="w-5 h-5 md:w-7 md:h-7"
 							onError={() => setCoinImage(genericCoin)}
+							loading="lazy"
 						/>
 						<div className="w-24 x-sm:w-fit">
 							<p className="w-16 truncate x-sm:w-fit">
