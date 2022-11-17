@@ -88,18 +88,16 @@ const TableRow = ({
 
 	const makeCoinFavorite = () => {
 		const tempCoins = [...cryptoCurrencyData];
-		const coinIndex = tempCoins.findIndex(
-			(e: CoinI) => e.symbol === coin.symbol
-		);
+		const coinIndex = tempCoins.findIndex((e: CoinI) => e.name === coin.name);
 		tempCoins[coinIndex].isFavorite = !tempCoins[coinIndex].isFavorite;
 		setCryptoCurrencyData(tempCoins);
 	};
 
 	const coinToCache = () => {
 		const tempFavoriteCoins = [...favoriteCoinsStorage];
-		tempFavoriteCoins.includes(coin.symbol)
-			? tempFavoriteCoins.splice(tempFavoriteCoins.indexOf(coin.symbol), 1)
-			: tempFavoriteCoins.push(coin.symbol);
+		tempFavoriteCoins.includes(coin.name)
+			? tempFavoriteCoins.splice(tempFavoriteCoins.indexOf(coin.name), 1)
+			: tempFavoriteCoins.push(coin.name);
 
 		setFavoriteCoinsStorage(tempFavoriteCoins);
 		localStorage.setItem("fav_coins", JSON.stringify(tempFavoriteCoins));
