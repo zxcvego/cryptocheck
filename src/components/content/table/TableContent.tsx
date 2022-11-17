@@ -1,87 +1,72 @@
-import TableRow from "./TableRow";
 import { CoinI } from "../CryptoTable";
-import { SortPropsI } from "../CryptoTable";
 import { useState } from "react";
+import ViewMoreButton from "../../content/table/ViewMoreButton";
+import { ShowTableRows } from "./rows/ShowTableRows";
+import { TableHeaders } from "./headers/TableHeaders";
+import { TableHeadersSkeleton } from "./skeleton/TableHeadersSkeleton";
+import { TableRowsSkeleton } from "./skeleton/TableRowsSkeleton";
 export interface ContentI {
 	loading: boolean;
 	cryptoCurrencyData: CoinI[];
 	setCryptoCurrencyData: React.Dispatch<React.SetStateAction<CoinI[]>>;
-	amountOfVisibleCoins: number;
-	showFavoriteCoins: boolean;
-	sortProps: SortPropsI;
+}
+export interface SortPropsI {
+	column: keyof Omit<CoinI, "isFavorite">;
+	type: "ASC" | "DESC";
 }
 
 const TableContent = ({
 	loading,
 	cryptoCurrencyData,
 	setCryptoCurrencyData,
-	amountOfVisibleCoins,
-	showFavoriteCoins,
-	sortProps,
 }: ContentI) => {
-	const sortData = (
-		firstCoin: CoinI,
-		secondCoin: CoinI,
-		sortType: "ASC" | "DESC",
-		propertyToSort: keyof Omit<CoinI, "isFavorite">
-	) => {
-		function sortedValue(a: number, b: number) {
-			return a - b;
-		}
+	const [showFavoriteCoins, setShowFavoriteCoins] = useState<boolean>(false);
+	const [sortProps, setSortProps] = useState<SortPropsI>({
+		column: "rank",
+		type: "ASC",
+	});
+	const [amountOfVisibleCoins, setAmountOfVisibleCoins] = useState<number>(20);
 
-		if (propertyToSort !== "name") {
-			return sortType === "ASC"
-				? sortedValue(
-						Number(firstCoin[propertyToSort]),
-						Number(secondCoin[propertyToSort])
-				  )
-				: sortedValue(
-						Number(secondCoin[propertyToSort]),
-						Number(firstCoin[propertyToSort])
-				  );
-		}
-
-		if (propertyToSort === "name") {
-			return sortType === "ASC"
-				? firstCoin[propertyToSort]
-						.toUpperCase()
-						.localeCompare(secondCoin[propertyToSort].toUpperCase())
-				: secondCoin[propertyToSort]
-						.toUpperCase()
-						.localeCompare(firstCoin[propertyToSort].toUpperCase());
-		}
-
-		return 0;
+	const increaseAmountOfVisibleCoins = (incrementValue: number) => {
+		setAmountOfVisibleCoins(amountOfVisibleCoins + incrementValue);
 	};
-
-	const [favoriteCoinsStorage, setFavoriteCoinsStorage] = useState<string[]>(
-		JSON.parse(localStorage.getItem("fav_coins") || "[]")
-	);
 
 	return (
 		<>
-			{loading ? (
-				<></>
-			) : (
-				cryptoCurrencyData
-					.sort((a, b) => {
-						return sortData(a, b, sortProps.type, sortProps.column);
-					})
-
-					.filter((coin) => (showFavoriteCoins ? coin.isFavorite : true))
-					.slice(0, amountOfVisibleCoins)
-					.map((coin, i) => {
-						return (
-							<TableRow
-								key={i}
-								coin={coin}
-								cryptoCurrencyData={cryptoCurrencyData}
-								setCryptoCurrencyData={setCryptoCurrencyData}
-								favoriteCoinsStorage={favoriteCoinsStorage}
-								setFavoriteCoinsStorage={setFavoriteCoinsStorage}
+			<table className="bg-black font-inter text-white overflow-hidden mx-auto text-xs sm:text-sm md:text-base border-darker-grey border-2 rounded-t-2xl w-full sm:min-w-fit md:w-8/12">
+				<thead className="bg-graphite">
+					<tr>
+						{loading ? (
+							<TableHeadersSkeleton />
+						) : (
+							<TableHeaders
+								sortProps={sortProps}
+								showFavoriteCoins={showFavoriteCoins}
+								setSortProps={setSortProps}
+								setShowFavoriteCoins={setShowFavoriteCoins}
+								setAmountOfVisibleCoins={setAmountOfVisibleCoins}
 							/>
-						);
-					})
+						)}
+					</tr>
+				</thead>
+				<tbody>
+					{loading ? (
+						<TableRowsSkeleton />
+					) : (
+						<ShowTableRows
+							sortProps={sortProps}
+							showFavoriteCoins={showFavoriteCoins}
+							amountOfVisibleCoins={amountOfVisibleCoins}
+							cryptoCurrencyData={cryptoCurrencyData}
+							setCryptoCurrencyData={setCryptoCurrencyData}
+						/>
+					)}
+				</tbody>
+			</table>
+			{showFavoriteCoins ? null : (
+				<ViewMoreButton
+					increaseAmountOfVisibleCoins={increaseAmountOfVisibleCoins}
+				/>
 			)}
 		</>
 	);

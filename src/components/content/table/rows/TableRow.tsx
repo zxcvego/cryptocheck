@@ -5,9 +5,10 @@ import {
 	faArrowTrendDown,
 	faArrowTrendUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { CoinI } from "../CryptoTable";
+import { CoinI } from "../../CryptoTable";
 import { useEffect, useState } from "react";
-import genericCoin from "../../../assets/golden-coin.png";
+import genericCoin from "../../../../assets/golden-coin.png";
+
 const TableRow = ({
 	coin,
 	cryptoCurrencyData,
@@ -106,9 +107,9 @@ const TableRow = ({
 
 	return (
 		<>
-			<tr className="odd:bg-black even:bg-graphite text-white h-20 overflow-hidden">
+			<tr className="odd:bg-black even:bg-graphite text-white h-12 md:h-16 overflow-hidden">
 				<td className="text-center">
-					<p>
+					<button>
 						<FontAwesomeIcon
 							icon={coin.isFavorite ? faHeartActive : faHeartInactive}
 							className={
@@ -121,7 +122,7 @@ const TableRow = ({
 								coinToCache();
 							}}
 						/>
-					</p>
+					</button>
 				</td>
 				<td className="hidden md:table-cell text-center">
 					<p>{coin.rank}</p>
